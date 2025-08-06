@@ -563,12 +563,6 @@ window.addEventListener("load", loadSavedAddresses);
   }
 }
 
-// Initialize cart manager
-let cartManager
-document.addEventListener("DOMContentLoaded", () => {
-  window.cartManager = new CartManager();
-});
-
 // --- Phone number prompt logic ---
 document.addEventListener("DOMContentLoaded", function () {
     const user = JSON.parse(localStorage.getItem("user"));
@@ -616,4 +610,28 @@ document.addEventListener("DOMContentLoaded", function () {
             });
         }
     }
+});
+
+document.addEventListener("DOMContentLoaded", function () {
+    const addAddressBtn = document.getElementById("add-address-btn");
+
+    if (addAddressBtn) {
+        addAddressBtn.addEventListener("click", function () {
+            const user = JSON.parse(localStorage.getItem("user"));
+
+            if (!user || !user.email) {
+                alert("⚠️ Please log in to add a delivery address.");
+                return;
+            }
+
+            // Show the address form if logged in
+            document.getElementById("address-form-container").style.display = "block";
+        });
+    }
+});
+
+// Initialize cart manager
+let cartManager
+document.addEventListener("DOMContentLoaded", () => {
+  window.cartManager = new CartManager();
 });
