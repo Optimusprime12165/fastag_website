@@ -1,9 +1,7 @@
 <?php
-
-/*ini_set('display_errors', 1);
+ini_set('display_errors', 1);
 error_reporting(E_ALL);
-
-file_put_contents("debug.txt", json_encode($_POST)); */
+file_put_contents("debug.txt", json_encode($_POST));
 
 header('Content-Type: application/json');
 require 'db.php';
@@ -19,6 +17,7 @@ if (!isset($data['email'], $data['login_type'])) {
 
 $email = trim($data['email']);
 $name = trim($data['name'] ?? '');
+$phone = trim($data['phone'] ?? '');
 $loginType = trim($data['login_type']);
 $password = trim($data['password'] ?? '');
 
@@ -32,16 +31,16 @@ if ($stmt->fetch()) {
 
 // Handle Manual Sign-Up
 if ($loginType === 'manual') {
-    if (!$name || !$password) {
+    if (!$name || !$password || !$phone) {
         echo json_encode(["success" => false, "message" => "All fields are required."]);
         exit;
     }
 
     $hashedPassword = password_hash($password, PASSWORD_DEFAULT);
 
-    $insert = $pdo->prepare("INSERT INTO users (name, email, password, login_type, created_at)
-                             VALUES (?, ?, ?, 'manual', NOW())");
-    $success = $insert->execute([$name, $email, $hashedPassword]);
+    $insert = $pdo->prepare("INSERT INTO users (name, email, phone, password, login_type, created_at)
+                             VALUES (?, ?, ?, ?, 'manual', NOW())");
+    $success = $insert->execute([$name, $email, $phone, $hashedPassword]);
 
 } elseif ($loginType === 'google') {
     if (!$name) {
@@ -49,9 +48,9 @@ if ($loginType === 'manual') {
         exit;
     }
 
-    $insert = $pdo->prepare("INSERT INTO users (name, email, login_type, created_at)
-                             VALUES (?, ?, 'google', NOW())");
-    $success = $insert->execute([$name, $email]);
+    $insert = $pdo->prepare("INSERT INTO users (name, email, phone, login_type, created_at)
+                             VALUES (?, ?, ?, 'google', NOW())");
+    $success = $insert->execute([$name, $email, $phone]);
 
 } else {
     echo json_encode(["success" => false, "message" => "Invalid login type."]);

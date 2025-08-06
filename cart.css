@@ -487,6 +487,37 @@
   color: #6b7280;
   font-size: 0.875rem;
 }
+/* address sec tion*/
+.address-section {
+  margin-top: 30px;
+  padding: 15px;
+  background: #f9f9f9;
+  border-radius: 8px;
+}
+
+.input-group {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.input-group input,
+.input-group button {
+  padding: 10px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+}
+
+#saved-addresses {
+  margin-top: 20px;
+}
+.saved-address {
+  padding: 10px;
+  border: 1px solid #ddd;
+  margin-bottom: 10px;
+  border-radius: 5px;
+}
+
 
 /* Recommended Products */
 .recommended-section {

@@ -18,13 +18,19 @@ class CartManager {
   }
 
   loadCart() {
-    return JSON.parse(localStorage.getItem("cart") || "[]")
-  }
+  const cart = JSON.parse(localStorage.getItem("cart") || "[]");
+  this.promoCode = localStorage.getItem("promoCode") || "";
+  this.promoDiscount = parseInt(localStorage.getItem("promoDiscount") || "0");
+  return cart;
+}
 
-  saveCart() {
-    localStorage.setItem("cart", JSON.stringify(this.cart))
-    this.updateCartCount()
-  }
+
+    saveCart() {
+  localStorage.setItem("cart", JSON.stringify(this.cart));
+  localStorage.setItem("promoCode", this.promoCode);             
+  localStorage.setItem("promoDiscount", this.promoDiscount);   
+  this.updateCartCount();
+}
 
   setupEventListeners() {
     // Clear cart button
@@ -64,10 +70,67 @@ class CartManager {
         }
       })
 
-      // Format pincode input
-      pincodeInput.addEventListener("input", function () {
-        this.value = this.value.replace(/\D/g, "").substring(0, 6)
-      })
+      document.getElementById("add-address-btn").addEventListener("click", function () {
+  const houseNo = document.getElementById("house-no").value.trim();
+  const landmark = document.getElementById("landmark").value.trim();
+  const city = document.getElementById("city").value.trim();
+  const pincode = document.getElementById("pincode").value.trim();
+
+  if (!houseNo || !landmark || !city || !pincode) {
+    alert("Please fill in all address fields.");
+    return;
+  }
+
+  // Create address object
+  const address = {
+    houseNo,
+    landmark,
+    city,
+    pincode,
+  };
+  // Save to backend using AJAX
+  fetch("save_address.php", {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify(address),
+  })
+    .then(res => res.json())
+    .then(data => {
+      if (data.success) {
+        alert("Address saved!");
+        loadSavedAddresses(); // refresh address list
+      } else {
+        alert("Error saving address.");
+      }
+    });
+});
+    function loadSavedAddresses() {
+  fetch("get_addresses.php")
+    .then(res => res.json())
+    .then(addresses => {
+      const container = document.getElementById("saved-addresses");
+      container.innerHTML = "";
+
+      if (addresses.length === 0) {
+        container.innerHTML = "<p>No saved addresses yet.</p>";
+        return;
+      }
+
+      addresses.forEach((addr, index) => {
+        const div = document.createElement("div");
+        div.classList.add("saved-address");
+        div.innerHTML = `
+          <input type="radio" name="selectedAddress" value="${index}" id="addr${index}">
+          <label for="addr${index}">
+            ${addr.house_no}, ${addr.landmark}, ${addr.city} - ${addr.pincode}
+          </label>
+        `;
+        container.appendChild(div);
+      });
+    });
+}
+
+window.addEventListener("load", loadSavedAddresses);
     }
   }
 
@@ -162,23 +225,6 @@ class CartManager {
       e.preventDefault();
       this.removeItem(index);
     });
-    
-    // Add event listeners
-    const decreaseBtn2 = itemDiv.querySelector('.decrease-btn');
-    const increaseBtn2 = itemDiv.querySelector('.increase-btn');
-    const removeBtn2 = itemDiv.querySelector('.remove-btn');
-    
-    decreaseBtn2.addEventListener('click', () => {
-        this.updateQuantity(index, item.quantity - 1);
-    });
-    
-    increaseBtn2.addEventListener('click', () => {
-        this.updateQuantity(index, item.quantity + 1);
-    });
-    
-    removeBtn2.addEventListener('click', () => {
-        this.removeItem(index);
-    });
   }
 
   updateQuantity(index, newQuantity) {
@@ -186,13 +232,6 @@ class CartManager {
       console.error('Invalid cart index:', index);
       return;
     }
-    
-    // Validate index
-    if (index < 0 || index >= this.cart.length) {
-      console.error('Invalid cart index:', index);
-      return;
-    }
-
 
     if (newQuantity <= 0) {
       this.removeItem(index)
@@ -236,6 +275,7 @@ class CartManager {
   }
 
   updateOrderSummary() {
+    
     const subtotal = this.cart.reduce((sum, item) => sum + item.price * item.quantity, 0)
     const shipping = subtotal >= this.freeShippingThreshold ? 0 : this.shippingCost
     const discount = this.promoDiscount
@@ -527,4 +567,53 @@ class CartManager {
 let cartManager
 document.addEventListener("DOMContentLoaded", () => {
   window.cartManager = new CartManager();
+});
+
+// --- Phone number prompt logic ---
+document.addEventListener("DOMContentLoaded", function () {
+    const user = JSON.parse(localStorage.getItem("user"));
+
+    if (user && (!user.phone || user.phone === "")) {
+        const phoneContainer = document.getElementById("phone-container");
+        if (phoneContainer) phoneContainer.style.display = "block";
+
+        const saveBtn = document.getElementById("save-phone-btn");
+        if (saveBtn) {
+            saveBtn.addEventListener("click", function () {
+                const phoneInput = document.getElementById("user-phone");
+                const phone = phoneInput.value.trim();
+
+                if (!/^\d{10}$/.test(phone)) {
+                    alert("Please enter a valid 10-digit phone number.");
+                    return;
+                }
+
+                fetch("save_phone.php", {
+                    method: "POST",
+                    headers: {
+                        "Content-Type": "application/json",
+                    },
+                    body: JSON.stringify({
+                        email: user.email,
+                        phone: phone,
+                    }),
+                })
+                    .then((res) => res.json())
+                    .then((data) => {
+                        if (data.success) {
+                            alert("Phone number saved!");
+                            user.phone = phone;
+                            localStorage.setItem("user", JSON.stringify(user));
+                            phoneContainer.style.display = "none";
+                        } else {
+                            alert(data.message || "Failed to save phone.");
+                        }
+                    })
+                    .catch((err) => {
+                        console.error("Error saving phone:", err);
+                        alert("Something went wrong.");
+                    });
+            });
+        }
+    }
 });

@@ -149,11 +149,27 @@
                         <!-- Delivery Information -->
                         <div class="delivery-card">
                             <h3>Delivery Information</h3>
-                            <div class="delivery-form">
-                                <label for="pincode">Pincode</label>
-                                <input type="text" id="pincode" placeholder="Enter your pincode" maxlength="6">
-                                <button class="check-delivery-btn" id="checkDeliveryBtn">Check Delivery Options</button>
+                            <div id="phoneSection" style="display:none;">
+                                <label for="phone">Please enter your phone number:</label>
+                                    <input type="tel" id="userPhone" placeholder="Enter mobile number">
+                                    <button onclick="savePhone()">Save</button>
                             </div>
+
+                            <div class="address-section">
+                                <h3>Delivery Address</h3>
+                                    <div class="input-group">
+                                        <input type="text" id="house-no" placeholder="House No." required>
+                                        <input type="text" id="landmark" placeholder="Landmark" required>
+                                        <input type="text" id="city" placeholder="City / Place" required>
+                                        <input type="text" id="pincode" placeholder="Pincode" maxlength="6" required>
+                                            <button id="add-address-btn">+ Add Address</button>
+                                    </div>
+
+                                    <div class="saved-addresses" id="saved-addresses">
+                                      <!-- Populated dynamically -->
+                                    </div>
+                            </div>
+
                             <div class="delivery-options" id="deliveryOptions">
                                 <div class="delivery-option">
                                     <i class="fas fa-shipping-fast"></i>
