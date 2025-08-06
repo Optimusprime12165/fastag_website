@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Payment Gateway</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="stylesheet" href="payment.css">
+</head>
+<body>
+  <div class="payment-container">
+    <h2>Checkout</h2>
+
+    <!-- Order Summary -->
+    <div class="order-summary">
+      <h3>Order Summary</h3>
+      <div id="order-items"></div>
+      <p><strong>Total:</strong> ₹<span id="order-total">0</span></p>
+    </div>
+
+    <!-- Delivery Address Section -->
+    <div class="address-section">
+      <h3>Select Delivery Address</h3>
+      <div id="saved-addresses"></div>
+
+      <button id="add-address-btn">+ Add New Address</button>
+
+      <div id="new-address-form" style="display:none;">
+        <input type="text" id="house-no" placeholder="House No.">
+        <input type="text" id="landmark" placeholder="Landmark">
+        <input type="text" id="city" placeholder="City/Place">
+        <input type="text" id="pincode" placeholder="Pincode">
+        <button id="save-address">Save Address</button>
+      </div>
+    </div>
+
+    <!-- Payment Options -->
+    <div class="payment-methods">
+      <h3>Choose Payment Method</h3>
+      <label><input type="radio" name="payment-method" value="razorpay" checked> UPI / Cards (Razorpay)</label><br>
+      <label><input type="radio" name="payment-method" value="cod"> Cash on Delivery</label>
+    </div>
+
+    <!-- Proceed Button -->
+    <button id="proceed-btn">Proceed to Pay</button>
+  </div>
+
+  <!-- Razorpay Script -->
+  <script src="https://checkout.razorpay.com/v1/checkout.js"></script>
+  <script src="payment.js"></script>
+</body>
+</html>
