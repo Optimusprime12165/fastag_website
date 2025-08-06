@@ -635,3 +635,7 @@ let cartManager
 document.addEventListener("DOMContentLoaded", () => {
   window.cartManager = new CartManager();
 });
+
+document.getElementById("checkoutBtn").addEventListener("click", function () {
+    window.location.href = "payment.html";
+});
