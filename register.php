@@ -39,23 +39,29 @@ if ($loginType === 'manual') {
         echo json_encode(["success" => false, "message" => "All fields are required."]);
         exit;
     }
-
+ try {
     $hashedPassword = password_hash($password, PASSWORD_DEFAULT);
 
     $insert = $pdo->prepare("INSERT INTO users (name, email, phone, password, login_type, created_at)
                              VALUES (?, ?, ?, ?, 'manual', NOW())");
     $success = $insert->execute([$name, $email, $phone, $hashedPassword]);
-
+ } catch (PDOException $e) {
+    echo json_encode(["success" => false, "message" => "Database error: " . $e->getMessage()]);
+    exit;
+ }
 } elseif ($loginType === 'google') {
     if (!$name) {
         echo json_encode(["success" => false, "message" => "Name required for Google Sign-Up."]);
         exit;
     }
-
-    $insert = $pdo->prepare("INSERT INTO users (name, email, phone, login_type, created_at)
-                             VALUES (?, ?, ?, 'google', NOW())");
-    $success = $insert->execute([$name, $email, $phone]);
-
+try {
+    $insert = $pdo->prepare("INSERT INTO users (name, email, login_type, created_at)
+                             VALUES (?, ?, 'google', NOW())");
+    $success = $insert->execute([$name, $email,]);
+} catch (PDOException $e) {
+    echo json_encode(["success" => false, "message" => "Database error: " . $e->getMessage()]);
+    exit;
+ }
 } else {
     echo json_encode(["success" => false, "message" => "Invalid login type."]);
     exit;

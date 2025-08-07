@@ -1,1 +1,0 @@
-{"name":"Minal Mahawar","email":"minalbarnwal@gmail.com","password":"789654hhg","login_type":"manual"}

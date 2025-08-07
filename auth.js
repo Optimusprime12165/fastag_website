@@ -15,10 +15,10 @@ if (signupForm) {
   signupForm.addEventListener('submit', async (e) => {
     e.preventDefault();
 
-    const name = document.getElementById('signupname')?.value.trim();
-    const email = document.getElementById('signupemail')?.value.trim();
+    const name = document.getElementById('signup-name')?.value.trim();
+    const email = document.getElementById('signup-email')?.value.trim();
     const password = signuppasswordInput?.value;
-    const phone = document.getElementById('signupphone')?.value.trim();
+    const phone = document.getElementById('signup-phone')?.value.trim();
 
      console.log({ name, email, password, phone }); // <-- Add this line for console debug
 
@@ -79,7 +79,7 @@ if (loginForm) {
       alert(data.message);
       if (data.success) {
         // Save user in localStorage if needed
-        window.location.href = 'dashboard.html'; // Change to your dashboard
+        window.location.href = 'index.html'; // Change to your dashboard
       }
     } 
     catch (err) {
