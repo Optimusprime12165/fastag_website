@@ -1,19 +1,31 @@
+// ----- SIGN UP PASSWORD TOGGLE -----
+const signuppasswordInput = document.getElementById('signup-password');
+const togglesignupPassword = document.getElementById('toggle-signup-password');
+if (signuppasswordInput && togglesignupPassword) {
+  togglesignupPassword.addEventListener('click', () => {
+    const type = signuppasswordInput.type === 'password' ? 'text' : 'password';
+    signuppasswordInput.type = type;
+    togglesignupPassword.textContent = type === 'password' ? '👁️' : '🙈';
+  });
+}
+
 // ----- SIGN UP -----
 const signupForm = document.getElementById('signup-form');
 if (signupForm) {
   signupForm.addEventListener('submit', async (e) => {
     e.preventDefault();
 
-    const name = document.getElementById('name')?.value.trim();
-    const email = document.getElementById('email')?.value.trim();
-    const password = document.getElementById('password')?.value;
-    const phone = document.getElementById('phone')?.value.trim();
+    const name = document.getElementById('signupname')?.value.trim();
+    const email = document.getElementById('signupemail')?.value.trim();
+    const password = signuppasswordInput?.value;
+    const phone = document.getElementById('signupphone')?.value.trim();
+
+     console.log({ name, email, password, phone }); // <-- Add this line for console debug
 
     if (!name || !email || !password || !phone) {
       alert('Please fill in all fields.');
       return;
     }
-
     try { 
       const res = await fetch('register.php', {
         method: 'POST',
@@ -32,14 +44,24 @@ if (signupForm) {
  });
 };
 
+// ----- login PASSWORD TOGGLE -----
+const loginpasswordInput = document.getElementById('login-password');
+const toggleloginPassword = document.getElementById('toggle-login-password');
+if (loginpasswordInput && toggleloginPassword) {
+  toggleloginPassword.addEventListener('click', () => {
+    const type = loginpasswordInput.type === 'password' ? 'text' : 'password';
+    loginpasswordInput.type = type;
+    toggleloginPassword.textContent = type === 'password' ? '👁️' : '🙈';
+  });
+}
 // ----- LOGIN -----
 const loginForm = document.getElementById('login-form');
 if (loginForm) {
   loginForm.addEventListener('submit', async (e) => {
     e.preventDefault();
 
-    const email = document.getElementById('email')?.value.trim();
-    const password = document.getElementById('password')?.value;
+    const email = document.getElementById('login-email')?.value.trim();
+    const password = loginpasswordInput?.value;
 
     if (!email || !password) {
       alert('Please fill in all fields.');

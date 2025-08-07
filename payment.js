@@ -47,10 +47,10 @@ document.addEventListener("DOMContentLoaded", () => {
 
     // Add new address
     document.getElementById("add-address-btn").onclick = () => {
-        const house_no = document.getElementById("house_no").value;
-        const landmark = document.getElementById("landmark").value;
-        const city = document.getElementById("city").value;
-        const pincode = document.getElementById("pincode").value;
+        const house_no = document.getElementById("payment-house_no").value;
+        const landmark = document.getElementById("payment-landmark").value;
+        const city = document.getElementById("payment-city").value;
+        const pincode = document.getElementById("payment-pincode").value;
 
         if (!house_no || !city || !pincode) {
             alert("Please fill all required address fields.");

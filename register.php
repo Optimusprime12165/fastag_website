@@ -2,7 +2,10 @@
 session_start();
 ini_set('display_errors', 1);
 error_reporting(E_ALL);
-file_put_contents("debug.txt", json_encode($_data));
+// file_put_contents("debug.txt", json_encode($_data));
+$raw = file_get_contents("php://input");
+file_put_contents("debug.txt", $raw); // Log the raw JSON input
+$data = json_decode($raw, true);
 
 header('Content-Type: application/json');
 require 'db.php';

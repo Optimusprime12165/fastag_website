@@ -71,10 +71,10 @@ class CartManager {
       })
 
       document.getElementById("add-address-btn").addEventListener("click", function () {
-  const houseNo = document.getElementById("house-no").value.trim();
-  const landmark = document.getElementById("landmark").value.trim();
-  const city = document.getElementById("city").value.trim();
-  const pincode = document.getElementById("pincode").value.trim();
+  const houseNo = document.getElementById("cart-house-no").value.trim();
+  const landmark = document.getElementById("cart-landmark").value.trim();
+  const city = document.getElementById("cart-city").value.trim();
+  const pincode = document.getElementById("cart-pincode").value.trim();
 
   if (!houseNo || !landmark || !city || !pincode) {
     alert("Please fill in all address fields.");
@@ -574,7 +574,7 @@ document.addEventListener("DOMContentLoaded", function () {
         const saveBtn = document.getElementById("save-phone-btn");
         if (saveBtn) {
             saveBtn.addEventListener("click", function () {
-                const phoneInput = document.getElementById("user-phone");
+                const phoneInput = document.getElementById("cart-user-phone");
                 const phone = phoneInput.value.trim();
 
                 if (!/^\d{10}$/.test(phone)) {
@@ -610,9 +610,6 @@ document.addEventListener("DOMContentLoaded", function () {
             });
         }
     }
-});
-
-document.addEventListener("DOMContentLoaded", function () {
     const addAddressBtn = document.getElementById("add-address-btn");
 
     if (addAddressBtn) {
@@ -628,14 +625,16 @@ document.addEventListener("DOMContentLoaded", function () {
             document.getElementById("address-form-container").style.display = "block";
         });
     }
-});
 
 // Initialize cart manager
 let cartManager
-document.addEventListener("DOMContentLoaded", () => {
   window.cartManager = new CartManager();
-});
 
-document.getElementById("checkoutBtn").addEventListener("click", function () {
-    window.location.href = "payment.html";
+ // --- Checkout button ---
+    const checkoutBtn = document.getElementById("checkoutBtn");
+    if (checkoutBtn) {
+        checkoutBtn.addEventListener("click", function () {
+            window.location.href = "payment.html";
+        });
+    }
 });

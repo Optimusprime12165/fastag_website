@@ -4,13 +4,13 @@ document.addEventListener("DOMContentLoaded", () => {
     .then(data => {
       if (data.success) {
         const u = data.user;
-        document.getElementById("name").value = u.name || "";
-        document.getElementById("email").value = u.email || "";
-        document.getElementById("phone").value = u.phone || "";
-        document.getElementById("house_no").value = u.house_no || "";
-        document.getElementById("landmark").value = u.landmark || "";
-        document.getElementById("city").value = u.city || "";
-        document.getElementById("pincode").value = u.pincode || "";
+        document.getElementById("profile-name").value = u.name || "";
+        document.getElementById("profile-email").value = u.email || "";
+        document.getElementById("profile-phone").value = u.phone || "";
+        document.getElementById("profile-house_no").value = u.house_no || "";
+        document.getElementById("profile-landmark").value = u.landmark || "";
+        document.getElementById("profile-city").value = u.city || "";
+        document.getElementById("profile-pincode").value = u.pincode || "";
       } else {
         document.getElementById("status-message").innerText = data.message;
       }

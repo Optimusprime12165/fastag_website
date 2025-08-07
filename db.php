@@ -1,8 +1,8 @@
 <?php
 $host = 'localhost';
-$dbname = '#';
-$username = '#';
-$password = '#';
+$dbname = 'fastag_website';
+$username = 'root';
+$password = '';
 
 try {
     $pdo = new PDO("mysql:host=$host;dbname=$dbname;charset=utf8mb4", $username, $password);
