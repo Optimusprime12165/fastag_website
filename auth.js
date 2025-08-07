@@ -14,7 +14,7 @@ if (signupForm) {
       return;
     }
 
-    try {
+    try { 
       const res = await fetch('register.php', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
@@ -25,12 +25,12 @@ if (signupForm) {
       alert(data.message);
       if (data.success) {
         window.location.href = 'login.html';
-      }
-    } catch (err) {
+      } 
+     } catch (err) {
       alert('Error during sign-up.');
     }
-  });
-}
+ });
+};
 
 // ----- LOGIN -----
 const loginForm = document.getElementById('login-form');
