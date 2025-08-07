@@ -1,7 +1,7 @@
 <?php
 
 session_start();
-header('Content-Type: application/json');
+header('Access-Control-Allow-Origin: *'); // (adjust domain if needed)
 require 'db.php';
 
 // Read JSON input

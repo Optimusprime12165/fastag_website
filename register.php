@@ -1,4 +1,5 @@
 <?php
+session_start();
 ini_set('display_errors', 1);
 error_reporting(E_ALL);
 file_put_contents("debug.txt", json_encode($_POST));
@@ -59,6 +60,12 @@ if ($loginType === 'manual') {
 
 // Final response
 if ($success) {
+    $user = $pdo->prepare("SELECT id FROM users WHERE email = ?");
+    $user->execute([$email]);
+    $user = $user->fetch();
+    if ($user) {
+        $_SESSION['user_id'] = $user['id'];
+    }
     echo json_encode(["success" => true, "message" => "Account created successfully."]);
 } else {
     echo json_encode(["success" => false, "message" => "Something went wrong."]);

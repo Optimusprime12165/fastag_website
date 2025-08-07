@@ -7,8 +7,9 @@ if (signupForm) {
     const name = document.getElementById('name')?.value.trim();
     const email = document.getElementById('email')?.value.trim();
     const password = document.getElementById('password')?.value;
+    const phone = document.getElementById('phone')?.value.trim();
 
-    if (!name || !email || !password) {
+    if (!name || !email || !password || !phone) {
       alert('Please fill in all fields.');
       return;
     }
@@ -17,7 +18,7 @@ if (signupForm) {
       const res = await fetch('register.php', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ name, email, password, login_type: 'manual' }),
+        body: JSON.stringify({ name, email, password, phone, login_type: 'manual' }),
       });
 
       const data = await res.json();
