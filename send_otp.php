@@ -39,7 +39,7 @@ $mail = new PHPMailer(true);
 try {
     // SMTP settings
     $mail->isSMTP();
-    $mail->Host = 'smtp.example.com';         // 🔁 Replace with your SMTP server
+    $mail->Host = 'smtp.gmail.com';         // 🔁 Replace with your SMTP server
     $mail->SMTPAuth = true;
     $mail->Username = 'vishwasbarnwal20@gmail.com';       // 🔁 Replace with your email
     $mail->Password = 'hmajtmzktivudcmm';  // 🔁 Replace with your email password
