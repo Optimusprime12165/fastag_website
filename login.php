@@ -1,4 +1,6 @@
 <?php
+
+session_start();
 header('Content-Type: application/json');
 require 'db.php';
 
@@ -60,3 +62,5 @@ echo json_encode([
         "login_type" => $user['login_type']
     ]
 ]);
+$_SESSION['user_id'] = $user['id'];
+?>
